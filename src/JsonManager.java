@@ -14,9 +14,8 @@ public class JsonManager {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     List<JsonData> jsonDataList = new ArrayList<>();
     int butName;
-    public static Date date = new Date();
-    public static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static String dateOutSoloWrite = simpleDate.format(date);
+    Date date = new Date();
+    SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public JsonManager() throws IOException, ParseException {
     }
@@ -49,6 +48,8 @@ public class JsonManager {
         Object obj = new JSONParser().parse(new FileReader("timings.json"));
         JSONArray jsonArray = (JSONArray) obj;
         JSONObject jsonObject = (JSONObject) jsonArray.get(Integer.parseInt(String.valueOf(butName)));
+
+        String dateOutSoloWrite = simpleDate.format(date);
         jsonObject.replace("date", dateOutSoloWrite);
         System.out.println("Значение обновлено!");
 
