@@ -17,7 +17,7 @@ public class JsonManager {
     Date date = new Date();
     SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    void jsonReader() {
+    public void jsonReader() {
         try {
             Object obj = new JSONParser().parse(new FileReader("timings.json"));
             JSONArray jsonArray = (JSONArray) obj;
@@ -27,6 +27,7 @@ public class JsonManager {
             if (Objects.equals(date, "none")){
                 jsonReplace();
                 //open TimeMath();
+                return;
             }
             else
                 System.out.println("Значение уже существует. Хотите перезаписать?");
@@ -39,7 +40,7 @@ public class JsonManager {
             throw new RuntimeException(e);
         }
     }
-    void jsonWriter() {
+    public void jsonWriter() {
         if (file.exists() && !file.isDirectory()) {
             System.out.println("Файл найден.");
             return;
@@ -61,7 +62,7 @@ public class JsonManager {
         }
 
     }
-    void jsonReplace() {
+    public void jsonReplace() {
         try {
             Object obj = new JSONParser().parse(new FileReader("timings.json"));
             JSONArray jsonArray = (JSONArray) obj;
