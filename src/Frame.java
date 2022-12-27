@@ -6,20 +6,12 @@ public class Frame {
     JPanel grid = new JPanel(new GridLayout(10, 3, 20, 20) );
     JPanel flow = new JPanel(new FlowLayout(FlowLayout.LEFT));
     Container container = frame.getContentPane();
-    long seconds = TimeMath.getDiffInSeconds();
-    long days = ;
-    long hours;
-    long minutes;
-    //таймер ебани
-    //приводку ебани
-    Timer timer = new Timer(1000, e -> {
-        seconds--;
-        System.out.println(seconds);
-    });
     public static JDialog modalReplace = new JDialog();
     public static String[] butName = { "dungeon1", "dungeon2", "dungeon3", "dungeon4", "dungeon5", "dungeon6", "dungeon7", "dungeon8", "dungeon9", "dungeon10",
             "quest1", "quest2", "quest3", "quest4", "quest5", "quest6", "quest7", "quest8", "quest9", "quest10",
             "quest11", "quest12", "quest13", "quest14", "quest15", "quest16", "quest17", "quest18", "quest19", "quest20" };
+
+    public static float[] timeModifier = { 0.5F, 1F, 2F, 3F, 7F };
 
     public void frameCreator() {
         frame.setSize(new Dimension(1024, 768));
@@ -36,8 +28,6 @@ public class Frame {
 
         modalFrame();
 
-        timer.start();
-
     }
     public void buttonsCreator(){
         for (int i = 0; i < 30; ++i) {
@@ -45,6 +35,7 @@ public class Frame {
             b.setFocusPainted(false);
             int finalI = i;
             String nameBut = butName[i];
+
             b.addActionListener(e -> new JsonManager().setClick(finalI, nameBut));
             grid.add(b);
         }
@@ -73,8 +64,8 @@ public class Frame {
     }
 
     public void frameInit() {
-        frameCreator();
         buttonsCreator();
+        frameCreator();
     }
 
     public static String[] getButName() {
