@@ -14,6 +14,7 @@ public class JsonManager {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     List<JsonData> jsonDataList = new ArrayList<>();
     int butName;
+    private String nameBut;
     Date date = new Date();
     SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -23,10 +24,11 @@ public class JsonManager {
             JSONArray jsonArray = (JSONArray) obj;
             JSONObject jsonObject = (JSONObject) jsonArray.get(Integer.parseInt(String.valueOf(butName)));
             String date = (String) jsonObject.get("date");
+            String rollback = (String) jsonObject.get("rollback");
 
-            if (Objects.equals(date, "none")){
+            if (Objects.equals(date, "none") || Objects.equals(rollback, "none")){
+                new TimeMath();
                 jsonReplace();
-                //open TimeMath();
                 return;
             }
             else
@@ -45,7 +47,6 @@ public class JsonManager {
             System.out.println("Файл найден.");
             return;
         }
-        //Хуйня ебаная
         else
             System.out.println("Файл не найден.");
         for (int i = 0; i < 30; ++i) {
@@ -82,8 +83,9 @@ public class JsonManager {
         System.out.println("Значение обновлено успешно!");
         Frame.modalReplace.setVisible(false);
     }
-    public void setClick(int butName) {
+    public void setClick(int butName, String nameBut) {
         this.butName = butName;
+        this.nameBut = nameBut;
         jsonReader();
     }
 }
