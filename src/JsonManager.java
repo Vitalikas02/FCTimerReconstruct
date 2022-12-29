@@ -6,7 +6,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class JsonManager {
@@ -14,26 +15,24 @@ public class JsonManager {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     List<JsonData> jsonDataList = new ArrayList<>();
     int butName;
-    private String nameBut;
-    Date date = new Date();
-    SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static String importRollback;
 
     public void jsonReader() {
         try {
             Object obj = new JSONParser().parse(new FileReader("timings.json"));
             JSONArray jsonArray = (JSONArray) obj;
-            JSONObject jsonObject = (JSONObject) jsonArray.get(Integer.parseInt(String.valueOf(butName)));
+            JSONObject jsonObject = (JSONObject) jsonArray.get(butName);
             String date = (String) jsonObject.get("date");
-            String rollback = (String) jsonObject.get("rollback");
 
-            if (Objects.equals(date, "none") || Objects.equals(rollback, "none")){
-                new TimeMath();
+            if (Objects.equals(date, "none")){
+                new TimeMath().timeMath();
                 jsonReplace();
-                return;
             }
-            else
+            else {
                 System.out.println("Значение уже существует. Хотите перезаписать?");
-            Frame.modalReplace.setVisible(true);
+                Frame.modalReplace.setVisible(true);
+            }
+
         } catch (IOException e) {
             System.out.println("[ERROR] Не удалось прочитать файл. Код ошибки: ");
             throw new RuntimeException(e);
@@ -61,15 +60,19 @@ public class JsonManager {
             System.out.println("[ERROR] Не удалось записать файл. Код ошибки: ");
             throw new RuntimeException(e);
         }
-
     }
     public void jsonReplace() {
         try {
             Object obj = new JSONParser().parse(new FileReader("timings.json"));
             JSONArray jsonArray = (JSONArray) obj;
-            JSONObject jsonObject = (JSONObject) jsonArray.get(Integer.parseInt(String.valueOf(butName)));
+            JSONObject jsonObject = (JSONObject) jsonArray.get(butName);
+
+            LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter simpleDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String dateOutSoloWrite = simpleDate.format(date);
+
             jsonObject.replace("date", dateOutSoloWrite);
+            jsonObject.replace("rollback", TimeMath.getDateT2());
             FileWriter writer = new FileWriter("timings.json");
             writer.write(gson.toJson(obj));
             writer.close();
@@ -83,9 +86,32 @@ public class JsonManager {
         System.out.println("Значение обновлено успешно!");
         Frame.modalReplace.setVisible(false);
     }
-    public void setClick(int butName, String nameBut) {
+    public void jsonChecker(int value) {
+        Object obj;
+        try {
+            obj = new JSONParser().parse(new FileReader("timings.json"));
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+        JSONArray jsonArray = (JSONArray) obj;
+        JSONObject jsonObject = (JSONObject) jsonArray.get(value);
+        String objectJson = (String) jsonObject.get("date");
+        //гетает нахуй все
+        if (!Objects.equals(objectJson, "none")) {
+            importRollback = (String) jsonObject.get("rollback");
+            System.out.println(importRollback);
+        }
+    }
+    public void setClick(int butName) {
         this.butName = butName;
-        this.nameBut = nameBut;
         jsonReader();
+    }
+
+    public static String getImportRollback() {
+        return importRollback;
+    }
+
+    public void setImportRollback(String importRollback) {
+        JsonManager.importRollback = importRollback;
     }
 }

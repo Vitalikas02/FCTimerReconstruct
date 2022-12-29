@@ -27,16 +27,21 @@ public class Frame {
         container.add(flow, BorderLayout.WEST);
 
         modalFrame();
+        new TimeMath().timerSecond();
 
     }
     public void buttonsCreator(){
         for (int i = 0; i < 30; ++i) {
+            new JsonManager().jsonChecker(i);
+            //и тут тоже
+            if(JsonManager.getImportRollback() != null){
+                System.out.println(JsonManager.getImportRollback());
+            }
             JButton b = new JButton((butName[i]));
             b.setFocusPainted(false);
             int finalI = i;
-            String nameBut = butName[i];
-
-            b.addActionListener(e -> new JsonManager().setClick(finalI, nameBut));
+            //открытие 30ти JsonManager
+            b.addActionListener(e -> new JsonManager().setClick(finalI));
             grid.add(b);
         }
     }
@@ -74,5 +79,13 @@ public class Frame {
 
     public static void setButName(String[] butName) {
         Frame.butName = butName;
+    }
+
+    public static float[] getTimeModifier() {
+        return timeModifier;
+    }
+
+    public static void setTimeModifier(float[] timeModifier) {
+        Frame.timeModifier = timeModifier;
     }
 }
