@@ -1,19 +1,18 @@
 public class Main {
     public static void main(String[] args) {
+        new EventListener();
         new TimeMath().timeMath();
         new JsonManager().jsonWriter();
         new Frame().frameInit();
-
     }
 }
 
 
-
-/*  Раскидать персональные таймеры к каждой кнопке
+/*  Перестройка фрейма
  *
  *
  *
  *
  *
  *   Собрать данные с фк
- * */
+ */

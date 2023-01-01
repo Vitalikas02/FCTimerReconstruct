@@ -10,10 +10,11 @@ public class TimeMath {
     static long diffInSeconds;
     static String dateT1;
     static String dateT2;
+    static String timeString;
+    long seconds;
 
-    long seconds = TimeMath.getDiffInSeconds();
-
-    public void timerSecond(){
+    public void timer(long seconds1) {
+        seconds = seconds1;
         Timer timer = new Timer(1000, e -> {
             seconds--;
             long day = seconds / 86400;
@@ -21,8 +22,7 @@ public class TimeMath {
             long minutes = (seconds % 3600) / 60;
             long secondsToMin = seconds % 60;
 
-            String timeString = String.format("%02d:%02d:%02d:%02d", day, hours, minutes, secondsToMin);
-
+            timeString = String.format("%02d:%02d:%02d:%02d", day, hours, minutes, secondsToMin);
             System.out.println(timeString);
         });
         timer.start();
@@ -37,27 +37,12 @@ public class TimeMath {
         dateT2 = dateTime2.format(simpleDate);
         diffInSeconds = java.time.Duration.between(dateTime1, dateTime2).getSeconds();
     }
-    public static long getDiffInSeconds() {
-        return diffInSeconds;
+    public long timeMath2(String rollback){
+        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime dateTest2 = LocalDateTime.parse(rollback, simpleDate);
+        return java.time.Duration.between(date, dateTest2).getSeconds();
     }
-
-    public void setDiffInSeconds(long diffInSeconds) {
-        TimeMath.diffInSeconds = diffInSeconds;
-    }
-
-    public String getDateT1() {
-        return dateT1;
-    }
-
-    public void setDateT1(String dateT1) {
-        TimeMath.dateT1 = dateT1;
-    }
-
     public static String getDateT2() {
         return dateT2;
-    }
-
-    public void setDateT2(String dateT2) {
-        TimeMath.dateT2 = dateT2;
     }
 }
