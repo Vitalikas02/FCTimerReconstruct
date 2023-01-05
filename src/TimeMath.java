@@ -10,23 +10,7 @@ public class TimeMath {
     static long diffInSeconds;
     static String dateT1;
     static String dateT2;
-    static String timeString;
-    long seconds;
-
-    public void timer(long seconds1) {
-        seconds = seconds1;
-        Timer timer = new Timer(1000, e -> {
-            seconds--;
-            long day = seconds / 86400;
-            long hours = (seconds % 86400) / 3600;
-            long minutes = (seconds % 3600) / 60;
-            long secondsToMin = seconds % 60;
-
-            timeString = String.format("%02d:%02d:%02d:%02d", day, hours, minutes, secondsToMin);
-            System.out.println(timeString);
-        });
-        timer.start();
-    }
+    public long seconds;
 
     public void timeMath() {
         LocalDateTime date = LocalDateTime.now();
@@ -37,10 +21,28 @@ public class TimeMath {
         dateT2 = dateTime2.format(simpleDate);
         diffInSeconds = java.time.Duration.between(dateTime1, dateTime2).getSeconds();
     }
-    public long timeMath2(String rollback){
+    public long timeMath2(String rollback) {
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime dateTest2 = LocalDateTime.parse(rollback, simpleDate);
-        return java.time.Duration.between(date, dateTest2).getSeconds();
+        seconds = java.time.Duration.between(date, dateTest2).getSeconds();
+        return seconds;
+    }
+     public long test(long seconds) {
+         seconds--;
+         return seconds;
+     }
+     public void retString(long ts){
+         Timer timer = new Timer(1000, e -> {
+             System.out.println(test(ts));
+         });
+         test(ts);
+         long day = seconds / 86400;
+         long hours = (seconds % 86400) / 3600;
+         long minutes = (seconds % 3600) / 60;
+         long secondsToMin = seconds % 60;
+         String f1 = String.format("%02d:%02d:%02d:%02d", day, hours, minutes, secondsToMin);
+         System.out.println();
+             timer.start();
     }
     public static String getDateT2() {
         return dateT2;

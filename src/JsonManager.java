@@ -121,7 +121,7 @@ public class JsonManager {
                 if (dif <= 0){
                     jsonObject.put("date", "none");
                     jsonObject.put("rollback", "none");
-                    System.out.println("test");
+                    System.out.println("Значение выпилено");
                     new JsonManager().jsonClear(i);
                 }
             }

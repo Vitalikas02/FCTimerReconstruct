@@ -3,15 +3,15 @@ import java.awt.*;
 import java.awt.event.WindowListener;
 
 public class Frame {
-    JFrame frame = new JFrame("Test");
-    JPanel grid = new JPanel(new GridLayout(10, 3, 20, 20));
+    static JFrame frame = new JFrame("Test");
+    static JPanel grid = new JPanel(new GridLayout(10, 3, 20, 20));
     public static JDialog modalReplace = new JDialog();
     public static String importRollback;
+    public static String labelValue;
     public static String[] butName = { "dungeon1", "dungeon2", "dungeon3", "dungeon4", "dungeon5", "dungeon6", "dungeon7", "dungeon8", "dungeon9", "dungeon10",
             "quest1", "quest2", "quest3", "quest4", "quest5", "quest6", "quest7", "quest8", "quest9", "quest10",
             "quest11", "quest12", "quest13", "quest14", "quest15", "quest16", "quest17", "quest18", "quest19", "quest20" };
     public static float[] timeModifier = { 0.5F, 1F, 2F, 3F, 7F };
-
     public void frameCreator() {
         WindowListener winListener = new EventListener();
         frame.addWindowListener(winListener);
@@ -30,11 +30,14 @@ public class Frame {
             new JsonManager().jsonChecker(i);
             if(JsonManager.getImportRollback() != null){
                 importRollback = JsonManager.getImportRollback();
-                System.out.println(importRollback);
-                long test = new TimeMath().timeMath2(importRollback);
-                new TimeMath().timer(test);
+                //ts = единоразовый высчет разницы json
+                long ts = new TimeMath().timeMath2(importRollback);
+                //
+                new TimeMath().retString(ts);
                 JButton b = new JButton((butName[i]));
-                JLabel label = new JLabel("test");
+                //сюда вывод таймера каждую секунду
+                //не обновляется
+                JLabel label = new JLabel(labelValue);
                 b.add(label);
                 grid.add(b);
             }

@@ -29,7 +29,6 @@ public class EventListener implements WindowListener {
 
     @Override
     public void windowActivated(WindowEvent e) {
-        new JsonManager().jsonTimeout();
     }
 
     @Override
